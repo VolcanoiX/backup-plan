@@ -17,7 +17,14 @@ python -m venv .venv
 
 ### Linux (Docker Compose)
 
-Нужны Docker и плагин Compose v2. В корне проекта:
+Нужны Git, Docker и плагин Compose v2. Склонируйте репозиторий и перейдите в папку проекта:
+
+```bash
+git clone https://github.com/VolcanoiX/backup-plan.git
+cd backup-plan
+```
+
+Создайте папку для данных:
 
 ```bash
 mkdir -p data
