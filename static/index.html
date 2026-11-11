@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>План резервного копирования</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23202024' stroke-width='1.8' stroke-linecap='round'%3E%3Crect x='2.5' y='9' width='6' height='6' rx='1.2' fill='%23202024' stroke='none'/%3E%3Cpath d='M8.5 12h4M12.5 12V6.5h3M12.5 12v5.5h3'/%3E%3Crect x='15.5' y='3.5' width='6' height='6' rx='1.5'/%3E%3Crect x='15.5' y='14.5' width='6' height='6' rx='1.5' fill='%23202024'/%3E%3C/svg%3E">
+  <script>
+    try {
+      var t = localStorage.getItem('bp.theme');
+      if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+    } catch (e) { /* хранилище недоступно — тема по системе */ }
+  </script>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="app">
+    <header class="mobilebar">
+      <button type="button" class="icon-btn" data-act="toggle-nav" aria-controls="nav" aria-expanded="false" aria-label="Открыть меню">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </button>
+      <a class="brand" href="#"><span>План резервного копирования</span></a>
+    </header>
+
+    <aside class="nav" id="nav">
+      <a class="brand" href="#">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="9" width="6" height="6" rx="1.2" fill="currentColor" stroke="none"/><path d="M8.5 12h4M12.5 12V6.5h3M12.5 12v5.5h3"/><rect x="15.5" y="3.5" width="6" height="6" rx="1.5"/><rect x="15.5" y="14.5" width="6" height="6" rx="1.5" fill="currentColor"/></svg>
+        <span>План резервного копирования</span>
+      </a>
+
+      <nav class="nav-main" aria-label="Разделы">
+        <a class="nav-link" href="#" data-nav="overview">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+          <span>Обзор</span>
+        </a>
+        <a class="nav-link" href="#storages" data-nav="storages">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3.5" y="4" width="17" height="6.5" rx="1.5"/><rect x="3.5" y="13.5" width="17" height="6.5" rx="1.5"/><path d="M7 7.25h.01M7 16.75h.01" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <span>Хранилища</span>
+          <span class="nav-count" id="st-count"></span>
+        </a>
+        <a class="nav-link" href="#dicts" data-nav="dicts">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M5 4.5h11.5a2 2 0 0 1 2 2v13H7a2 2 0 0 1-2-2z"/><path d="M5 17.5a2 2 0 0 1 2-2h11.5M9 8.5h6M9 11.5h4"/></svg>
+          <span>Справочники</span>
+        </a>
+      </nav>
+
+      <div class="nav-section">
+        <span id="orgs-label">Организации</span>
+        <button type="button" class="btn btn-ghost btn-s" data-act="add-org">+ Организация</button>
+      </div>
+      <label class="search-wrap">
+        <span class="sr-only">Поиск по организациям, устройствам и путям</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4 4"/></svg>
+        <input id="search" class="ctl search" type="search" placeholder="Сервер, набор, путь…" autocomplete="off" spellcheck="false">
+      </label>
+      <ul class="org-list" id="org-list" aria-labelledby="orgs-label"></ul>
+
+      <div class="nav-foot">
+        <div class="theme-switch" id="theme-switch" role="radiogroup" aria-label="Тема оформления">
+          <button type="button" role="radio" data-act="theme" data-id="system">Системная</button>
+          <button type="button" role="radio" data-act="theme" data-id="light">Светлая</button>
+          <button type="button" role="radio" data-act="theme" data-id="dark">Тёмная</button>
+        </div>
+        <p class="updated" id="updated"></p>
+      </div>
+    </aside>
+
+    <main class="main" id="main"><p class="loading">Загрузка…</p></main>
+  </div>
+
+  <div class="scrim" data-act="toggle-nav" aria-hidden="true"></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <div id="datalists" hidden></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

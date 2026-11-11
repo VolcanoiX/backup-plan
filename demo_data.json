@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "updated_at": null,
+  "storages": [
+    {
+      "id": "st_demo_nas01",
+      "name": "NAS-01 (офис RIK)",
+      "type": "nas",
+      "scope": "local",
+      "address": "\\\\192.168.1.20\\backup",
+      "location": "Серверная офиса «Рога и Копыта»",
+      "notes": "Synology DS920+, снапшоты включены. Учётка: KeePass → Клиенты → RIK → NAS-01",
+      "org_ids": ["org_demo_rik"]
+    },
+    {
+      "id": "st_demo_s3",
+      "name": "S3 Selectel",
+      "type": "s3",
+      "scope": "remote",
+      "address": "s3://rik-backup/",
+      "location": "Selectel, Москва",
+      "notes": "Ключи доступа: KeePass → Клиенты → RIK → Selectel S3",
+      "org_ids": ["org_demo_rik"]
+    },
+    {
+      "id": "st_demo_yadisk",
+      "name": "Яндекс.Диск (общий)",
+      "type": "yadisk",
+      "scope": "remote",
+      "address": "disk:/Backups/",
+      "location": "Облако",
+      "notes": "Общий аккаунт для небольших клиентов, у каждого своя папка",
+      "org_ids": ["org_demo_rik", "org_demo_alfa"]
+    }
+  ],
+  "organizations": [
+    {
+      "id": "org_demo_rik",
+      "name": "ООО «Рога и Копыта»",
+      "tag": "#RIK",
+      "notes": "Демо-организация. Можно удалить.",
+      "devices": [
+        {
+          "id": "dev_demo_srv1c",
+          "name": "SRV-1C",
+          "host": "192.168.1.10",
+          "os": "Windows Server 2019",
+          "role": "Сервер 1С",
+          "kind": "vm",
+          "hypervisor": "Hyper-V на HV-01",
+          "location": "Офис, серверная",
+          "notes": "",
+          "sets": [
+            {
+              "id": "set_demo_buh",
+              "name": "База 1С «Бухгалтерия»",
+              "type": "db1c",
+              "source": "D:\\1C_Backup\\buh (ежедневные выгрузки .dt)",
+              "notes": "",
+              "copies": [
+                {
+                  "id": "cp_demo_buh1",
+                  "storage_id": "st_demo_nas01",
+                  "from": "source",
+                  "tool": "Выгрузка 1С (.dt) + robocopy",
+                  "schedule": "ежедневно в 23:00",
+                  "retention": "14 дней",
+                  "notes": ""
+                },
+                {
+                  "id": "cp_demo_buh2",
+                  "storage_id": "st_demo_s3",
+                  "from": "cp_demo_buh1",
+                  "tool": "rclone",
+                  "schedule": "ежедневно в 03:00",
+                  "retention": "30 дней",
+                  "notes": "Копируется с NAS"
+                }
+              ]
+            },
+            {
+              "id": "set_demo_img",
+              "name": "Образ системы SRV-1C",
+              "type": "image",
+              "source": "Весь сервер (C:, D:)",
+              "notes": "",
+              "copies": [
+                {
+                  "id": "cp_demo_img1",
+                  "storage_id": "st_demo_nas01",
+                  "from": "source",
+                  "tool": "Veeam Agent for Windows",
+                  "schedule": "еженедельно, вс 01:00",
+                  "retention": "4 копии",
+                  "notes": ""
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "dev_demo_srvfs",
+          "name": "SRV-FS",
+          "host": "192.168.1.11",
+          "os": "Windows Server 2016",
+          "role": "Файловый сервер",
+          "kind": "physical",
+          "hypervisor": "",
+          "location": "Офис, серверная",
+          "notes": "",
+          "sets": [
+            {
+              "id": "set_demo_share",
+              "name": "Общая папка",
+              "type": "share",
+              "source": "\\\\SRV-FS\\Общая",
+              "notes": "",
+              "copies": [
+                {
+                  "id": "cp_demo_share1",
+                  "storage_id": "st_demo_nas01",
+                  "from": "source",
+                  "tool": "robocopy /MIR",
+                  "schedule": "ежедневно в 22:00",
+                  "retention": "7 версий (снапшоты NAS)",
+                  "notes": ""
+                },
+                {
+                  "id": "cp_demo_share2",
+                  "storage_id": "st_demo_yadisk",
+                  "from": "source",
+                  "tool": "rclone",
+                  "schedule": "еженедельно, сб 02:00",
+                  "retention": "4 недели",
+                  "notes": "Снимается с сервера напрямую"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "org_demo_alfa",
+      "name": "ИП Альфа-Сервис",
+      "tag": "#ALFA",
+      "notes": "Демо-организация. Можно удалить.",
+      "devices": [
+        {
+          "id": "dev_demo_alfa",
+          "name": "PC-BUH",
+          "host": "192.168.0.5",
+          "os": "Windows 11",
+          "role": "Бухгалтерия (файловая 1С)",
+          "kind": "workstation",
+          "hypervisor": "",
+          "location": "Офис",
+          "notes": "",
+          "sets": [
+            {
+              "id": "set_demo_alfa_docs",
+              "name": "Документы бухгалтерии",
+              "type": "folder",
+              "source": "C:\\Users\\buh\\Documents",
+              "notes": "План копирования ещё не согласован",
+              "copies": [
+                {
+                  "id": "cp_demo_alfa1",
+                  "storage_id": "st_demo_yadisk",
+                  "from": "source",
+                  "stage": "approval",
+                  "tool": "rclone",
+                  "schedule": "по будням в 19:00",
+                  "retention": "30 дней",
+                  "notes": "Ждём согласия клиента на облако"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

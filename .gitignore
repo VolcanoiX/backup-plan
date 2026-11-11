@@ -1,0 +1,19 @@
+# Виртуальное окружение и кэш Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+
+# Рабочие данные (создаются при запуске из demo_data.json; могут содержать реальные сведения)
+data/
+
+# Локальные настройки Claude Code и графа знаний
+.claude/settings.local.json
+graphify-out/
+
+# Редакторы и ОС
+.idea/
+.vscode/
+Thumbs.db
+.DS_Store
+*.log

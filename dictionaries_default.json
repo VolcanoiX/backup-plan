@@ -1,0 +1,83 @@
+{
+  "set_types": [
+    { "id": "folder", "label": "Папка", "icon": "folder", "hint": "Путь к папке, например D:\\Data\\Документы" },
+    { "id": "files", "label": "Файлы", "icon": "files", "hint": "Пути или маски файлов, по одному на строку" },
+    { "id": "db1c", "label": "База 1С", "icon": "calc", "hint": "Имя базы и/или путь к выгрузкам, например D:\\1C_Backup\\buh" },
+    { "id": "db_sql", "label": "База данных (SQL)", "icon": "database", "hint": "Сервер / экземпляр и имя базы, например SQL01\\MSSQL / buh_2024" },
+    { "id": "share", "label": "Общая папка", "icon": "share", "hint": "Сетевой путь, например \\\\SRV-FS\\Общая" },
+    { "id": "image", "label": "Образ системы", "icon": "disc", "hint": "Какие диски / тома: весь сервер, C:, D:" },
+    { "id": "vm", "label": "Виртуальная машина", "icon": "vm", "hint": "Имя ВМ на гипервизоре" },
+    { "id": "other", "label": "Другое", "icon": "other", "hint": "Что именно копируется" }
+  ],
+  "storage_types": [
+    { "id": "nas", "label": "NAS", "icon": "nas" },
+    { "id": "smb", "label": "Сетевая папка (SMB)", "icon": "share" },
+    { "id": "disk_local", "label": "Локальный диск", "icon": "hdd" },
+    { "id": "disk_usb", "label": "Внешний диск (USB)", "icon": "usb" },
+    { "id": "s3", "label": "S3-совместимое облако", "icon": "bucket" },
+    { "id": "yadisk", "label": "Яндекс.Диск", "icon": "cloud-up" },
+    { "id": "cloud", "label": "Другое облако", "icon": "cloud" },
+    { "id": "ftp", "label": "FTP / SFTP", "icon": "transfer" },
+    { "id": "server", "label": "Другой сервер", "icon": "server" },
+    { "id": "tape", "label": "Ленточный накопитель", "icon": "tape" },
+    { "id": "other", "label": "Другое", "icon": "other" }
+  ],
+  "device_kinds": [
+    { "id": "physical", "label": "Физический сервер", "icon": "server", "short": "Физический сервер" },
+    { "id": "vm", "label": "Виртуальная машина", "icon": "vm", "short": "ВМ" },
+    { "id": "workstation", "label": "Рабочая станция", "icon": "pc", "short": "ПК" },
+    { "id": "nas", "label": "NAS / СХД", "icon": "nas", "short": "NAS" },
+    { "id": "other", "label": "Другое", "icon": "other", "short": "" }
+  ],
+  "tools": [
+    "Выгрузка 1С (.dt)",
+    "Регламентное копирование 1С",
+    "robocopy",
+    "rclone",
+    "restic",
+    "Veeam Agent for Windows",
+    "Veeam Backup & Replication",
+    "Windows Server Backup (wbadmin)",
+    "Acronis Cyber Protect",
+    "Cobian Backup",
+    "SQL Server Maintenance Plan",
+    "pg_dump",
+    "Synology Hyper Backup"
+  ],
+  "os": [
+    "Windows Server 2016",
+    "Windows Server 2019",
+    "Windows Server 2022",
+    "Windows 10",
+    "Windows 11",
+    "Ubuntu Server",
+    "Debian",
+    "Astra Linux",
+    "РЕД ОС",
+    "Synology DSM"
+  ],
+  "roles": [
+    "Сервер 1С",
+    "Файловый сервер",
+    "Контроллер домена",
+    "Терминальный сервер",
+    "SQL-сервер",
+    "Почтовый сервер",
+    "Веб-сервер",
+    "Гипервизор",
+    "Рабочее место бухгалтера"
+  ],
+  "hypervisors": [
+    "Hyper-V",
+    "VMware ESXi",
+    "Proxmox VE",
+    "KVM",
+    "VirtualBox"
+  ],
+  "locations": [
+    "Офис, серверная",
+    "Офис",
+    "Дата-центр (colocation)",
+    "Облако"
+  ]
+}
