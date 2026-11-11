@@ -15,6 +15,28 @@ python -m venv .venv
 .venv\Scripts\python app.py
 ```
 
+### Linux (Docker Compose)
+
+Нужны Docker и плагин Compose v2. В корне проекта:
+
+```bash
+mkdir -p data
+```
+
+```bash
+UID=$(id -u) GID=$(id -g) docker compose up -d --build
+```
+
+Приложение откроется на http://127.0.0.1:8765. Данные лежат в `./data` рядом с проектом (при первом запуске туда копируются демо-данные), поэтому переживают пересборку и обновление контейнера.
+
+```bash
+docker compose logs -f      # логи
+docker compose down         # остановить
+git pull && UID=$(id -u) GID=$(id -g) docker compose up -d --build   # обновить
+```
+
+По умолчанию порт открыт только на `127.0.0.1`. Чтобы открыть его в сети, замените в `docker-compose.yml` `"127.0.0.1:8765:8765"` на `"8765:8765"`. В приложении нет авторизации, поэтому ограничьте доступ файрволом, VPN или reverse-proxy с паролем.
+
 ## Структура
 
 ```

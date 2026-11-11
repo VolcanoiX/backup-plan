@@ -1,0 +1,14 @@
+services:
+  backup-plan:
+    build: .
+    container_name: backup-plan
+    restart: unless-stopped
+    # Пользователь хоста, чтобы файлы в ./data принадлежали вам, а не root.
+    # Запуск: UID=$(id -u) GID=$(id -g) docker compose up -d --build
+    user: "${UID:-1000}:${GID:-1000}"
+    ports:
+      # Только локальный доступ. Для доступа из сети замените на "8765:8765"
+      # (в приложении нет авторизации — закройте его VPN или reverse-proxy с паролем).
+      - "127.0.0.1:8765:8765"
+    volumes:
+      - ./data:/app/data
